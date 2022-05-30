@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>JS Drum Kit</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="mycss.css">
 </head>
 <body>
 
@@ -58,7 +58,30 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+function playSound(e){
+  const audio = document.querySelector(`audio[data-key='${e.keyCode}']`);
+  const key = document.querySelector(`div[data-key='${e.keyCode}']`);
+  //등록되어 있지 않은 key 그냥 반환
+  if(!audio) return;
+  
+  //class이름에 playing을 더해서 css효과가 나게 해줌
+  key.classList.add('playing');
+  //소리를 중첩해서 낼 수 있게 해줌. 소리가 끝나지 않아도 다시 0으로 시작점을 맞춰서 재생할 수 있음.
+  audio.currentTime =0;
+  //audio의 method
+  audio.play();
+}
 
+function removePlaying(e){
+  console.log(e);
+  //원래대로 돌려줘
+  e.target.classList.remove('playing')
+}
+ 
+ const keys = Array.from(document.querySelectorAll('.key'));
+ console.log(keys)
+ keys.forEach(key => key.addEventListener('transitionend',removePlaying))
+ window.addEventListener('keydown',playSound) ;
 </script>
 
 
