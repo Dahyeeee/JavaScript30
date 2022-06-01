@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Scoped CSS Variables and JS</title>
 </head>
+
 <body>
   <h2>Update CSS Variables with <span class='hl'>JS</span></h2>
 
@@ -21,10 +23,21 @@
   <img src="https://source.unsplash.com/7bwQXzbF6KE/800x500">
 
   <style>
+    :root {
+      --spacing: 10px;
+      --blur: 10px;
+      --base: #00b7ff;
+    }
 
-    /*
-      misc styles, nothing to do with CSS variables
-    */
+    .hl {
+      color: var(--base)
+    }
+
+    img {
+      background-color: var(--base);
+      filter: blur(var(--blur));
+      padding: var(--spacing);
+    }
 
     body {
       text-align: center;
@@ -45,7 +58,19 @@
   </style>
 
   <script>
+    const inputs = document.querySelectorAll('.controls input');
+
+    function changeHandler() {
+      //data-blarblar 하면 dataset이라는 곳에 값이 저장됨.
+      const surfix = this.dataset.sizing || '';
+      //style css에 변수 변경하는 법.
+      document.documentElement.style.setProperty(`--${this.name}`, `${this.value}${surfix}`)
+    }
+    inputs.forEach(input => input.addEventListener('change', changeHandler));
+    inputs.forEach(input => input.addEventListener('mousemove', changeHandler));
+
   </script>
 
 </body>
+
 </html>
